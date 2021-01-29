@@ -7,7 +7,7 @@ CREATE SCHEMA public;
 GRANT ALL ON SCHEMA public TO postgres;
 \set QUIET false
 
--- Tables 
+-- Tables
 CREATE TABLE Students (
 	idnr VARCHAR(10) check (length(idnr) = 10), -- check NUMBERS
 	name TEXT NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE Students (
 	PRIMARY KEY (idnr)
 );
 CREATE TABLE Branches (
-	name TEXT ,
+	name TEXT NOT NULL,
 	program TEXT NOT NULL,
 	PRIMARY KEY(name, program)
 
@@ -29,20 +29,20 @@ CREATE TABLE Courses(
 	credits FLOAT NOT NULL,
 	department	TEXT NOT NULL,
 	PRIMARY KEY (code)
-	
+
 );
 
 CREATE TABLE LimitedCourses(
 	 code VARCHAR(6) PRIMARY KEY,
 	 capacity INT NOT NULL,
-	 FOREIGN KEY (code) REFERENCES Courses 
+	 FOREIGN KEY (code) REFERENCES Courses
 	 );
-	 
+
 CREATE TABLE StudentBranches(
 	 student VARCHAR(10) PRIMARY KEY,
 	 branch TEXT NOT NULL,
 	 program TEXT NOT NULL,
-	 FOREIGN KEY (student) REFERENCES Students, 
+	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (branch,program) REFERENCES Branches
 	 );
 
@@ -58,7 +58,7 @@ CREATE TABLE Classified(
 	 FOREIGN KEY (course) REFERENCES Courses,
 	 FOREIGN KEY (classification) REFERENCES Classifications
 	 );
-	 
+
 
 
 CREATE TABLE MandatoryProgram(
@@ -96,11 +96,11 @@ CREATE TABLE Registered(
 	 FOREIGN KEY (course) REFERENCES Courses
 	 );
 
-	 
+
 CREATE TABLE Taken(
 	 student VARCHAR(10),
 	 course VARCHAR(6),
-	 grade CHAR(1)	NOT NULL, 				-- kolla om den 
+	 grade CHAR(1)	NOT NULL, 				-- kolla om den
 	 PRIMARY KEY (student,course),
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES Courses
@@ -109,8 +109,8 @@ CREATE TABLE Taken(
 CREATE TABLE WaitingList(
 	 student VARCHAR(10),
 	 course VARCHAR(6),
-	 position SERIAL NOT NULL, 				-- kolla om den 
+	 position SERIAL NOT NULL, 				-- kolla om den
 	 PRIMARY KEY (student,course),
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES LimitedCourses
-	 ); 
+	 );
