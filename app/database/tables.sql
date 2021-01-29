@@ -113,4 +113,13 @@ CREATE TABLE WaitingList(
 	 PRIMARY KEY (student,course),
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES LimitedCourses
-	 ); 
+	 );
+
+	 CREATE TABLE tst(
+	 student VARCHAR(10),
+	 course VARCHAR(6),
+	 position SERIAL NOT NULL, 				-- kolla om den
+	 PRIMARY KEY (student,course),
+	 FOREIGN KEY (student) REFERENCES Students,
+	 FOREIGN KEY (course) REFERENCES LimitedCourses
+	 );
