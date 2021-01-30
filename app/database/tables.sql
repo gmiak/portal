@@ -114,8 +114,6 @@ CREATE TABLE WaitingList(
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES LimitedCourses
 	 );
-<<<<<<< HEAD
-=======
 
 	 CREATE TABLE tst(
 	 student VARCHAR(10),
@@ -125,4 +123,3 @@ CREATE TABLE WaitingList(
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES LimitedCourses
 	 );
->>>>>>> 3e41e7e4620b0425ebcfa4f5a79c5c790a0529d2
