@@ -9,6 +9,14 @@ SELECT student, course, grade, Courses.credits FROM Taken LEFT OUTER JOIN Course
 SELECT* FROM FinishedCourses;
 DROP VIEW FinishedCourses;
 
+CREATE VIEW StudentCourses AS
+
+SELECT idnr AS student, COALESCE(course,'No course') AS course , COALESCE(grade,'No grade') AS grade ,  COALESCE(credits,0) AS credits  FROM Students LEFT OUTER JOIN Taken ON idnr= student LEFT OUTER JOIN Courses ON course =code;
+
+
+SELECT* FROM StudentCourses;
+--DROP VIEW StudentCourses;
+
 CREATE VIEW PassedCourses AS
 SELECT student, course, Courses.credits FROM Taken LEFT OUTER JOIN Courses ON code= course
 WHERE grade != 'U';
@@ -31,3 +39,13 @@ SELECT student, Taken.course FROM Taken RIGHT OUTER JOIN MandatoryBranch ON Take
 WHERE grade = 'U';
 SELECT* FROM UnreadMandatory;
 DROP VIEW UnreadMandatory;
+
+CREATE VIEW PathToGraduation AS
+-- SELECT student, SUM(credits)AS totalCredits, UnreadMandatory.course AS mandatoryLeft, researchCredits, seminarCourses, qualified FROM PassedCourses, UnreadMandatory
+SELECT student, SUM(credits) AS totalCredits FROM StudentCourses
+--GROUP BY student ORDER BY totalCredits
+--LEFT OUTER JOIN ON
+--SELECT student, UnreadMandatory.course AS mandatoryLeft FROM UnreadMandatory;
+
+SELECT* FROM PathToGraduation;
+DROP VIEW PathToGraduation;
