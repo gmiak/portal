@@ -99,7 +99,7 @@ CREATE TABLE Registered(
 CREATE TABLE Taken(
 	 student VARCHAR(10),
 	 course VARCHAR(6),
-	 grade CHAR(1)	NOT NULL, 				-- kolla om den
+	 grade CHAR(1)	NOT NULL,
 	 PRIMARY KEY (student,course),
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES Courses
@@ -108,16 +108,7 @@ CREATE TABLE Taken(
 CREATE TABLE WaitingList(
 	 student VARCHAR(10),
 	 course VARCHAR(6),
-	 position SERIAL NOT NULL, 				-- kolla om den
-	 PRIMARY KEY (student,course),
-	 FOREIGN KEY (student) REFERENCES Students,
-	 FOREIGN KEY (course) REFERENCES LimitedCourses
-	 );
-
-	 CREATE TABLE tst(
-	 student VARCHAR(10),
-	 course VARCHAR(6),
-	 position SERIAL NOT NULL, 				-- kolla om den
+	 position SERIAL NOT NULL,
 	 PRIMARY KEY (student,course),
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES LimitedCourses

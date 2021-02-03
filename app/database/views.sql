@@ -9,10 +9,8 @@ SELECT* FROM FinishedCourses;
 DROP VIEW FinishedCourses;
 
 CREATE VIEW StudentCourses AS
-
-SELECT idnr AS student, COALESCE(course,'No course') AS course , COALESCE(grade,'No grade') AS grade ,  COALESCE(credits,0) AS credits  FROM Students LEFT OUTER JOIN Taken ON idnr= student LEFT OUTER JOIN Courses ON course =code;
-
-
+SELECT idnr AS student, COALESCE(course,'No course') AS course , COALESCE(grade,'No grade') AS grade ,  COALESCE(credits,0) AS
+credits  FROM Students LEFT OUTER JOIN Taken ON idnr= student LEFT OUTER JOIN Courses ON course =code;
 SELECT* FROM StudentCourses;
 --DROP VIEW StudentCourses;
 
