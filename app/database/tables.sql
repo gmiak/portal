@@ -9,7 +9,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 
 -- Tables
 CREATE TABLE Students (
-	idnr VARCHAR(10) check (length(idnr) = 10), -- check NUMBERS
+	idnr VARCHAR(10) check (length(idnr) = 10 AND idnr >='0' AND idnr <='9'),
 	name TEXT NOT NULL,
 	login TEXT NOT NULL,
 	program TEXT NOT NULL,
@@ -19,7 +19,6 @@ CREATE TABLE Branches (
 	name TEXT NOT NULL,
 	program TEXT NOT NULL,
 	PRIMARY KEY(name, program)
-
 );
 
 

@@ -1,6 +1,5 @@
 CREATE VIEW BasicInformation AS
-SELECT idnr, name, login, Students.program,branch FROM Students FULL OUTER JOIN StudentBranches ON idnr=student;
- -- hitta koppling mellan program och namn på branchen.
+SELECT idnr, name, login, Students.program, branch FROM Students FULL OUTER JOIN StudentBranches ON idnr=student;
 SELECT* FROM BasicInformation;
 DROP VIEW BasicInformation;
 
