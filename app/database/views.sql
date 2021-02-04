@@ -54,15 +54,64 @@ MandatoryBranch.branch = BasicInformation.branch)
 EXCEPT
 SELECT student, course FROM PassedCourses;
 SELECT* FROM UnreadMandatory;
-SELECT student, COUNT(course) FROM UnreadMandatory GROUP BY student;
 
 
-CREATE VIEW PathToGraduation AS
-SELECT idnr AS student, COALESCE(SUM(credits), 0) AS totalCredits, COALESCE(COUNT(DISTINCT(UnreadMandatory.course)), 0) AS mandatoryLeft
-FROM BasicInformation
-LEFT OUTER JOIN PassedCourses ON BasicInformation.idnr=PassedCourses.student
-LEFT OUTER JOIN UnreadMandatory ON BasicInformation.idnr=UnreadMandatory.student
-GROUP BY BasicInformation.idnr;
+CREATE OR REPLACE VIEW PathToGraduation AS
+WITH totalCredit AS (
+  SELECT idnr AS student, COALESCE(SUM(DISTINCT(credits)), 0) AS totalCredits
+  FROM BasicInformation
+  LEFT OUTER JOIN FinishedCourses ON BasicInformation.idnr=FinishedCourses.student
+  GROUP BY BasicInformation.idnr
+), totalCreditPassed AS (
+  SELECT idnr AS student, COALESCE(SUM(DISTINCT(credits)), 0) AS totalCreditPass
+  FROM BasicInformation
+  LEFT OUTER JOIN PassedCourses ON BasicInformation.idnr=PassedCourses.student
+  GROUP BY BasicInformation.idnr
+), mandatoryLefts AS (
+  SELECT idnr AS student, COALESCE(COUNT(DISTINCT(UnreadMandatory.course)), 0) AS mandatoryLeft
+  FROM BasicInformation
+  LEFT OUTER JOIN UnreadMandatory ON BasicInformation.idnr=UnreadMandatory.student
+  GROUP BY BasicInformation.idnr
+), mathCredit AS (
+  SELECT idnr AS student, COALESCE(COUNT(DISTINCT(FinishedCourses.course)), 0) AS mathCredits FROM BasicInformation
+  LEFT OUTER JOIN FinishedCourses ON BasicInformation.idnr=FinishedCourses.student
+  WHERE FinishedCourses.course IN (SELECT course FROM Classified WHERE classification='math')
+  GROUP BY BasicInformation.idnr
+), mathCreditPassed AS (
+  SELECT idnr AS student, COALESCE(SUM(DISTINCT(PassedCourses.credits)), 0) AS mathPassed FROM BasicInformation
+  LEFT OUTER JOIN PassedCourses ON BasicInformation.idnr=PassedCourses.student
+  WHERE PassedCourses.course IN (SELECT course FROM Classified WHERE classification='math')
+  GROUP BY BasicInformation.idnr
+), researchCredit AS (
+  SELECT idnr AS student, COALESCE(COUNT(DISTINCT(FinishedCourses.course)), 0) AS researchCredits FROM BasicInformation
+  LEFT OUTER JOIN FinishedCourses ON BasicInformation.idnr=FinishedCourses.student
+  WHERE FinishedCourses.course IN (SELECT course FROM Classified WHERE classification='research')
+  GROUP BY BasicInformation.idnr
+), researchCreditPassed AS (
+  SELECT idnr AS student, COALESCE(SUM(DISTINCT(PassedCourses.credits)), 0) AS researchCreditPass FROM BasicInformation
+  LEFT OUTER JOIN PassedCourses ON BasicInformation.idnr=PassedCourses.student
+  WHERE PassedCourses.course IN (SELECT course FROM Classified WHERE classification='research')
+  GROUP BY BasicInformation.idnr
+), seminarCours AS (
+  SELECT idnr AS student, COALESCE(COUNT(DISTINCT(PassedCourses.course)), 0) AS seminarCourses FROM BasicInformation
+  LEFT OUTER JOIN PassedCourses ON BasicInformation.idnr=PassedCourses.student
+  WHERE PassedCourses.course IN (SELECT course FROM Classified WHERE classification='seminar')
+  GROUP BY BasicInformation.idnr
+), qualified AS (
+  SELECT idnr AS student, (mandatoryLeft=0 and totalCreditPass>=10 and mathPassed >=20 and researchCreditPass >=10 and seminarCourses >=1) AS qualified
+  FROM BasicInformation
+  LEFT OUTER JOIN mandatoryLefts ON BasicInformation.idnr=mandatoryLefts.student
+  LEFT OUTER JOIN totalCreditPassed ON BasicInformation.idnr=totalCreditPassed.student
+  LEFT OUTER JOIN mathCreditPassed ON BasicInformation.idnr=mathCreditPassed.student
+  LEFT OUTER JOIN researchCreditPassed ON BasicInformation.idnr=researchCreditPassed.student
+  LEFT OUTER JOIN seminarCours ON BasicInformation.idnr=seminarCours.student
+)
+SELECT* FROM totalCredit
+JOIN mandatoryLefts USING (student)
+NATURAL FULL JOIN mathCredit
+NATURAL FULL JOIN researchCredit
+NATURAL FULL JOIN seminarCours
+NATURAL LEFT JOIN qualified;
 
-SELECT* FROM PathToGraduation;
+SELECT DISTINCT* FROM PathToGraduation;
 DROP VIEW PathToGraduation;
