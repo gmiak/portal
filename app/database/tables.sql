@@ -9,7 +9,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 
 -- Tables
 CREATE TABLE Students (
-	idnr VARCHAR(10) check (length(idnr) = 10 AND idnr >='0' AND idnr <='9'),
+	idnr VARCHAR(10) check (idnr SIMILAR TO '[0-9]{10}'),
 	name TEXT NOT NULL,
 	login TEXT NOT NULL,
 	program TEXT NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE Registered(
 CREATE TABLE Taken(
 	 student VARCHAR(10),
 	 course VARCHAR(6),
-	 grade CHAR(1)	NOT NULL,
+	 grade CHAR(1)	NOT NULL check ( grade IN ('U','3','4','5')),
 	 PRIMARY KEY (student,course),
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES Courses
