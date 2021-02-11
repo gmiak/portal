@@ -1,0 +1,55 @@
+Departments(_name_,_abbr_)
+Programs(_name_,abbr)				ProgramDepartment(_department_,_abbr_,_program_)
+						department -> Departments.name
+						abbr-> Departments.abbr
+						program-> Programs.name
+
+Branches(_name_)				BrancheName(_branch_,_program_)
+						branch-> Branches.name
+						program-> Programs.name
+
+Students(_idnr_,name,login,program)		StudentBranches(_student_,branch)	
+login = Char(6)					student-> Students.idnr
+program-> Programs.name				branch-> Branches.name
+
+Courses(_code_,_department_,credits,name)	LimitedCourses(_course_,capacity)
+department -> Departments.name			course-> Courses.code
+code = Char(6)					capacity>0
+credits > 0 
+						PreRequisities(_course_,_courseRequisite_)
+						course-> Courses.code
+						courseRequisite-> Courses.code
+
+Classification(_name_)				Classified(_course_,_classification_)
+						course-> Courses.code
+						classification-> Classification.name
+
+MandatoryCourses(_code_)			MandatoryPrograms(_program_,_course_)
+code-> Courses.code				program -> Programs.name
+						course-> Courses.code
+
+						MandatoryBranches(_course_,_branch_)
+						branch-> Branches.name
+						course-> MandatoryCourses.code						
+
+RecommendedCourses(_code_)			RecommendedForBranch(_branch_,_course_)
+code-> Courses.code				branch-> Branches.name
+						course-> RecommendedCourses.code
+
+						Taken(_student_,_course_,grade)
+						student-> Student.idnr
+						course-> Courses.code
+						grade IN(U,3,4,5)
+						
+						Regestration(_student_,_course_)
+						student-> Students.idnr
+						course-> Courses.code
+
+WaitingList(_student_,_course_,position)
+student-> Students.idnr
+course-> Courses.code
+position>0
+
+
+						
+								
