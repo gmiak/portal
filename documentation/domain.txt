@@ -1,0 +1,21 @@
+studentId studentName studentLogin programName programAbb departmantName departmentAbbr courseCode courseName CourseCridit limitidCoursesCapacity classificationName branchName takenGrade waitingListPosition
+
+
+departmentAbbr -> programName
+departmantName -> programName
+departmantName departmentAbbr -> programName
+courseCode-> departmantName 
+
+couseCode-> courseCridit
+courseCode-> limitedCourseCapacity
+courseCode studentId -> takenGrade
+courseCode -> classificationName
+studentId -> studentName
+studentId -> studentLogin
+studentId -> programName
+studentId  -> branchName
+studentId -> studentName studentLogin programName branchName
+studentId courseCode -> waitingListPosition
+waitingListPosition-> studentId
+waitingListPosition-> courseCode 
+waitingListPosition-> studentId courseCode 

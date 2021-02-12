@@ -16,7 +16,7 @@ CREATE TABLE Branches (
 CREATE TABLE Courses(
 	code VARCHAR(6) check (length(code) = 6),
 	name TEXT NOT NULL,
-	credits FLOAT NOT NULL,
+	credits FLOAT NOT NULL check(credits>=0),
 	department	TEXT NOT NULL,
 	PRIMARY KEY (code)
 
@@ -24,7 +24,7 @@ CREATE TABLE Courses(
 
 CREATE TABLE LimitedCourses(
 	 code VARCHAR(6) PRIMARY KEY,
-	 capacity INT NOT NULL,
+	 capacity INT NOT NULL check(capacity>=0),
 	 FOREIGN KEY (code) REFERENCES Courses
 	 );
 
