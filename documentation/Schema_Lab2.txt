@@ -8,7 +8,7 @@ Branches(_name_)				BrancheName(_branch_,_program_)
 						branch-> Branches.name
 						program-> Programs.name
 
-Students(_idnr_,name,login,program)		StudentBranches(_student_,branch)	
+Students(_idnr_,name,login,program)		StudentBranches(_student_,_branch_)	
 login = Char(6)					student-> Students.idnr
 program-> Programs.name				branch-> Branches.name
 
@@ -16,24 +16,24 @@ Courses(_code_,_department_,credits,name)	LimitedCourses(_course_,capacity)
 department -> Departments.name			course-> Courses.code
 code = Char(6)					capacity>0
 credits > 0 
-						PreRequisities(_course_,_courseRequisite_)
+						PreRequisities(_course_)
 						course-> Courses.code
-						courseRequisite-> Courses.code
+					
 
 Classification(_name_)				Classified(_course_,_classification_)
 						course-> Courses.code
 						classification-> Classification.name
 
-MandatoryCourses(_code_)			MandatoryPrograms(_program_,_course_)
-code-> Courses.code				program -> Programs.name
+						MandatoryPrograms(_program_,_course_)
+						program -> Programs.name
 						course-> Courses.code
 
 						MandatoryBranches(_course_,_branch_)
 						branch-> Branches.name
-						course-> MandatoryCourses.code						
+						course-> Courses.code						
 
-RecommendedCourses(_code_)			RecommendedForBranch(_branch_,_course_)
-code-> Courses.code				branch-> Branches.name
+						RecommendedForBranch(_branch_,_course_)
+ 						branch-> Branches.name
 						course-> RecommendedCourses.code
 
 						Taken(_student_,_course_,grade)
@@ -45,10 +45,10 @@ code-> Courses.code				branch-> Branches.name
 						student-> Students.idnr
 						course-> Courses.code
 
-WaitingList(_student_,_course_,position)
-student-> Students.idnr
-course-> Courses.code
-position>0
+						WaitingList(_student_,_course_,position)
+						student-> Students.idnr
+						course-> Courses.code
+						position>0
 
 
 						
