@@ -26,8 +26,8 @@ SET client_min_messages TO NOTICE;
 
 -- Load your files (they need to be in the same folder as this script!)
 \i C:/sql_labs/portal/app/database/tables.sql
-\i C:/sql_labs/portal/app/database/views.sql
 \i C:/sql_labs/portal/app/database/inserts.sql
+\i C:/sql_labs/portal/app/database/views.sql
 
 ------------------
 -- Test queries --

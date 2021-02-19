@@ -1,0 +1,163 @@
+Attributes:
+studentId studentName studentLogin programName programAbb departmentName departmentAbbr courseCode courseName courseCredit limitedCoursesCapacity classificationName branchName takenGrade waitingListPosition
+Keys:
+studentId courseCode classificationName
+
+Functional dependencies:
+departmentName -> departmentAbbr
+courseCode departmentName -> departmentAbbr
+courseCode -> courseCredit
+courseCode -> courseName
+courseCode -> departmentName
+courseCode -> limitedCoursesCapacity
+courseCode studentId -> takenGrade
+studentId -> studentName
+studentId -> studentLogin
+studentId -> programName
+studentId -> branchName
+programName -> programAbb
+studentId courseCode -> waitingListPosition
+
+
+
+Keys:
+studentId courseCode classificationName
+
+BCNF violations (the first 11):
+courseCode -> departmentName
+courseCode -> courseName
+courseCode -> courseCredit
+courseCode -> limitedCoursesCapacity
+courseCode -> departmentAbbr
+courseCode waitingListPosition -> departmentName
+courseCode waitingListPosition -> courseName
+courseCode waitingListPosition -> courseCredit
+courseCode waitingListPosition -> limitedCoursesCapacity
+courseCode waitingListPosition -> departmentAbbr
+courseCode takenGrade -> departmentName
+
+4NF violations (the first 11):
+none except the BCNF violations
+-----
+1. Attributes:
+departmentName departmentAbbr
+Keys:
+departmentName
+
+Functional dependencies:
+departmentName -> departmentAbbr
+
+
+
+2. Attributes:
+courseCode departmentName courseName courseCredit limitedCoursesCapacity
+Keys:
+courseCode
+
+Functional dependencies:
+courseCode -> departmentName
+courseCode -> courseName
+courseCode -> courseCredit
+courseCode -> limitedCoursesCapacity
+courseCode limitedCoursesCapacity -> departmentName
+courseCode limitedCoursesCapacity -> courseName
+courseCode limitedCoursesCapacity -> courseCredit
+courseCode courseCredit -> departmentName
+courseCode courseCredit -> courseName
+courseCode courseCredit -> limitedCoursesCapacity
+courseCode courseCredit limitedCoursesCapacity -> departmentName
+courseCode courseCredit limitedCoursesCapacity -> courseName
+courseCode courseName -> departmentName
+courseCode courseName -> courseCredit
+courseCode courseName -> limitedCoursesCapacity
+courseCode courseName limitedCoursesCapacity -> departmentName
+courseCode courseName limitedCoursesCapacity -> courseCredit
+courseCode courseName courseCredit -> departmentName
+courseCode courseName courseCredit -> limitedCoursesCapacity
+courseCode courseName courseCredit limitedCoursesCapacity -> departmentName
+courseCode departmentName -> courseName
+courseCode departmentName -> courseCredit
+courseCode departmentName -> limitedCoursesCapacity
+courseCode departmentName limitedCoursesCapacity -> courseName
+courseCode departmentName limitedCoursesCapacity -> courseCredit
+courseCode departmentName courseCredit -> courseName
+courseCode departmentName courseCredit -> limitedCoursesCapacity
+courseCode departmentName courseCredit limitedCoursesCapacity -> courseName
+courseCode departmentName courseName -> courseCredit
+courseCode departmentName courseName -> limitedCoursesCapacity
+courseCode departmentName courseName limitedCoursesCapacity -> courseCredit
+courseCode departmentName courseName courseCredit -> limitedCoursesCapacity
+
+
+
+3. Attributes:
+programName programAbb
+Keys:
+programName
+
+Functional dependencies:
+programName -> programAbb
+
+
+
+4. Attributes:
+studentId studentName studentLogin programName branchName
+Keys:
+studentId
+
+Functional dependencies:
+studentId -> studentName
+studentId -> studentLogin
+studentId -> programName
+studentId -> branchName
+studentId branchName -> studentName
+studentId branchName -> studentLogin
+studentId branchName -> programName
+studentId programName -> studentName
+studentId programName -> studentLogin
+studentId programName -> branchName
+studentId programName branchName -> studentName
+studentId programName branchName -> studentLogin
+studentId studentLogin -> studentName
+studentId studentLogin -> programName
+studentId studentLogin -> branchName
+studentId studentLogin branchName -> studentName
+studentId studentLogin branchName -> programName
+studentId studentLogin programName -> studentName
+studentId studentLogin programName -> branchName
+studentId studentLogin programName branchName -> studentName
+studentId studentName -> studentLogin
+studentId studentName -> programName
+studentId studentName -> branchName
+studentId studentName branchName -> studentLogin
+studentId studentName branchName -> programName
+studentId studentName programName -> studentLogin
+studentId studentName programName -> branchName
+studentId studentName programName branchName -> studentLogin
+studentId studentName studentLogin -> programName
+studentId studentName studentLogin -> branchName
+studentId studentName studentLogin branchName -> programName
+studentId studentName studentLogin programName -> branchName
+
+
+
+5. Attributes:
+studentId courseCode takenGrade waitingListPosition
+Keys:
+studentId courseCode
+
+Functional dependencies:
+studentId courseCode -> takenGrade
+studentId courseCode -> waitingListPosition
+studentId courseCode waitingListPosition -> takenGrade
+studentId courseCode takenGrade -> waitingListPosition
+
+
+
+6. Attributes:
+studentId courseCode classificationName
+Keys:
+studentId courseCode classificationName
+
+Functional dependencies:
+none
