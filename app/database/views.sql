@@ -17,8 +17,8 @@ WHERE grade != 'U';
 ------------------- view Registrations ----------------------------------
 CREATE OR REPLACE VIEW Registrations AS
 SELECT student, course, 'registered' AS status FROM Registered
-UNION 
-SELECT student,course, 'Waiting' AS status FROM WaitingList;
+UNION ALL
+SELECT student,course, 'waiting' AS status FROM WaitingList;
 --SELECT* FROM Registrations;
 
 ------------------- view UnreadMandatory ----------------------------------
