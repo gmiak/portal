@@ -1,6 +1,6 @@
 ------------------- view BasicInformation ----------------------------------
 CREATE OR REPLACE VIEW BasicInformation AS
-SELECT idnr, name, login, Students.program, COALESCE(branch,'No yet') AS branch FROM Students FULL OUTER JOIN StudentBranches ON idnr=student;
+SELECT idnr, name, login, Students.program, branch FROM Students FULL OUTER JOIN StudentBranches ON idnr=student;
 --SELECT* FROM BasicInformation;
 
 ------------------- view FinishedCourses ----------------------------------
@@ -17,7 +17,7 @@ WHERE grade != 'U';
 ------------------- view Registrations ----------------------------------
 CREATE OR REPLACE VIEW Registrations AS
 SELECT student, course, 'registered' AS status FROM Registered
-UNION ALL
+UNION 
 SELECT student,course, 'Waiting' AS status FROM WaitingList;
 --SELECT* FROM Registrations;
 

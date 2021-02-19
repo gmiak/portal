@@ -1,12 +1,3 @@
--- OBS: Deletes everything!
-\c portal
-\set QUIT true
-SET client_min_messages TO WARNING;
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-GRANT ALL ON SCHEMA public TO postgres;
-\set QUIET false
-
 -- Tables
 CREATE TABLE Students (
 	idnr VARCHAR(10) check (idnr SIMILAR TO '[0-9]{10}'),
