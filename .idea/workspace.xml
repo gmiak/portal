@@ -2,12 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3d7fe32-5729-4ba6-b80a-110d473ec068" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/database/triggers.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/database/inserts.sql" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/inserts.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/database/runtests.sql" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/runtests.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/database/tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/tables.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/Schema_Lab2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/domain.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/database/views.sql" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/views.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/ER-Schema.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/ER-Schema.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/ER.png" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/ER.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/FD-Schema.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/FD-Schema.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/FD.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/FD.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/documentation/lab2.dia" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/lab2.dia" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,10 +22,25 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
   <component name="ProjectId" id="1nkE8OKVUsC6Bfh4Hl6R4lGHeQv" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\sql_labs\portal\app\database" />
+    </key>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -35,5 +54,15 @@
       <updated>1611925527914</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="277" y="57" key="SettingsEditor" timestamp="1614162723660">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1614162723660" />
+    <state x="778" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1614177999763">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="778" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1614177999763" />
   </component>
 </project>

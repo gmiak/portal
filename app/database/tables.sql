@@ -52,9 +52,9 @@ CREATE TABLE StudentBranches(
 	 FOREIGN KEY (branch, program) REFERENCES Branches
 	 );
 CREATE TABLE LimitedCourses(
-	 code VARCHAR(6) PRIMARY KEY,
+	 course VARCHAR(6) PRIMARY KEY,
 	 capacity INT NOT NULL check(capacity>=0),
-	 FOREIGN KEY (code) REFERENCES Courses
+	 FOREIGN KEY (course) REFERENCES Courses
 	 );
 CREATE TABLE PreRequisities(
 	 course VARCHAR(6),
@@ -113,8 +113,15 @@ CREATE TABLE Registered(
 CREATE TABLE WaitingList(
 	 student VARCHAR(10),
 	 course VARCHAR(6),
-	 position SERIAL UNIQUE,
+	 position INT CHECK (position>0),
 	 PRIMARY KEY (student,course),
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES Courses
 	 );
+--Functions
+CREATE OR REPLACE FUNCTION nextPos (CHAR(6)) RETURNS INT AS $$ DECLARE
+	 position INT;
+	 BEGIN
+	 position := (SELECT COUNT(*) FROM WaitingList WHERE course = $1);
+	 RETURN (position+1);
+	 END $$ LANGUAGE plpgsql;

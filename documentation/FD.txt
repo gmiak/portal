@@ -1,92 +1,70 @@
 Attributes:
 studentId studentName studentLogin programName programAbb departmentName departmentAbbr courseCode courseName courseCredit limitedCoursesCapacity classificationName branchName takenGrade waitingListPosition
-Keys:
-studentId courseCode classificationName
 
 Functional dependencies:
-departmentName -> departmentAbbr
-courseCode departmentName -> departmentAbbr
-courseCode -> courseCredit
-courseCode -> courseName
-courseCode -> departmentName
-courseCode -> limitedCoursesCapacity
+departmentName -> departmentAbbr	
+departmentAbbr -> departmentName
+
+courseCode -> courseCredit courseName departmentName limitedCoursesCapacity
 courseCode studentId -> takenGrade
-studentId -> studentName
-studentId -> studentLogin
-studentId -> programName
-studentId -> branchName
+studentId -> studentName studentLogin programName branchName
+studentLogin-> studentId
 programName -> programAbb
 studentId courseCode -> waitingListPosition
+courseCode waitingListPosition-> studentId
 
+BCNF decomposition:
 
-
-Keys:
-studentId courseCode classificationName
-
-BCNF violations (the first 11):
-courseCode -> departmentName
-courseCode -> courseName
-courseCode -> courseCredit
-courseCode -> limitedCoursesCapacity
-courseCode -> departmentAbbr
-courseCode waitingListPosition -> departmentName
-courseCode waitingListPosition -> courseName
-courseCode waitingListPosition -> courseCredit
-courseCode waitingListPosition -> limitedCoursesCapacity
-courseCode waitingListPosition -> departmentAbbr
-courseCode takenGrade -> departmentName
-
-4NF violations (the first 11):
-none except the BCNF violations
------
 1. Attributes:
-departmentName departmentAbbr
+departmentAbbr departmentName
 Keys:
 departmentName
+departmentAbbr
 
 Functional dependencies:
+departmentAbbr -> departmentName
 departmentName -> departmentAbbr
 
 
 
 2. Attributes:
-courseCode departmentName courseName courseCredit limitedCoursesCapacity
+courseCode courseName courseCredit limitedCoursesCapacity departmentAbbr
 Keys:
 courseCode
 
 Functional dependencies:
-courseCode -> departmentName
 courseCode -> courseName
 courseCode -> courseCredit
 courseCode -> limitedCoursesCapacity
-courseCode limitedCoursesCapacity -> departmentName
+courseCode -> departmentAbbr
+courseCode departmentAbbr -> courseName
+courseCode departmentAbbr -> courseCredit
+courseCode departmentAbbr -> limitedCoursesCapacity
 courseCode limitedCoursesCapacity -> courseName
 courseCode limitedCoursesCapacity -> courseCredit
-courseCode courseCredit -> departmentName
+courseCode limitedCoursesCapacity -> departmentAbbr
+courseCode limitedCoursesCapacity departmentAbbr -> courseName
+courseCode limitedCoursesCapacity departmentAbbr -> courseCredit
 courseCode courseCredit -> courseName
 courseCode courseCredit -> limitedCoursesCapacity
-courseCode courseCredit limitedCoursesCapacity -> departmentName
+courseCode courseCredit -> departmentAbbr
+courseCode courseCredit departmentAbbr -> courseName
+courseCode courseCredit departmentAbbr -> limitedCoursesCapacity
 courseCode courseCredit limitedCoursesCapacity -> courseName
-courseCode courseName -> departmentName
+courseCode courseCredit limitedCoursesCapacity -> departmentAbbr
+courseCode courseCredit limitedCoursesCapacity departmentAbbr -> courseName
 courseCode courseName -> courseCredit
 courseCode courseName -> limitedCoursesCapacity
-courseCode courseName limitedCoursesCapacity -> departmentName
+courseCode courseName -> departmentAbbr
+courseCode courseName departmentAbbr -> courseCredit
+courseCode courseName departmentAbbr -> limitedCoursesCapacity
 courseCode courseName limitedCoursesCapacity -> courseCredit
-courseCode courseName courseCredit -> departmentName
+courseCode courseName limitedCoursesCapacity -> departmentAbbr
+courseCode courseName limitedCoursesCapacity departmentAbbr -> courseCredit
 courseCode courseName courseCredit -> limitedCoursesCapacity
-courseCode courseName courseCredit limitedCoursesCapacity -> departmentName
-courseCode departmentName -> courseName
-courseCode departmentName -> courseCredit
-courseCode departmentName -> limitedCoursesCapacity
-courseCode departmentName limitedCoursesCapacity -> courseName
-courseCode departmentName limitedCoursesCapacity -> courseCredit
-courseCode departmentName courseCredit -> courseName
-courseCode departmentName courseCredit -> limitedCoursesCapacity
-courseCode departmentName courseCredit limitedCoursesCapacity -> courseName
-courseCode departmentName courseName -> courseCredit
-courseCode departmentName courseName -> limitedCoursesCapacity
-courseCode departmentName courseName limitedCoursesCapacity -> courseCredit
-courseCode departmentName courseName courseCredit -> limitedCoursesCapacity
+courseCode courseName courseCredit -> departmentAbbr
+courseCode courseName courseCredit departmentAbbr -> limitedCoursesCapacity
+courseCode courseName courseCredit limitedCoursesCapacity -> departmentAbbr
 
 
 
@@ -161,3 +139,7 @@ studentId courseCode classificationName
 
 Functional dependencies:
 none
+
+
+
+

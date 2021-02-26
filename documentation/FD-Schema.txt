@@ -1,37 +1,17 @@
 Domain(studentId studentName studentLogin programName programAbb departmentName departmentAbbr courseCode courseName courseCredit limitedCoursesCapacity classificationName branchName takenGrade waitingListPosition)
 
-
-Functional dependencies:
-
-departmentName -> departmentAbbr
-courseCode departmentName -> departmentAbbr
-courseCode -> courseCredit courseName departmentName limitedCoursesCapacity
-courseCode studentId -> takenGrade
-studentId -> studentName studentLogin programName branchName
-programName -> programAbb
-studentId courseCode -> waitingListPosition
-studentId waitingListPosition-> courseCode
-
-
 Relations:
 
-R0(_departmentName_ departmentAbbr)
-departmentAbbr unique
+R0(_departmentName_ _departmentAbbr_)
 
-R1(_courseCode_ departmentName courseName courseCredit limitedCoursesCapacity)
-
-Unique:
-departmentName
+R1(_courseCode_ courseName courseCredit limitedCoursesCapacity departmentAbbr)
 
 R2(_programName_ programAbb)
 
 R3(_studentId_ studentName studentLogin programName branchName)
-unique:
-programName
-branchName
+
 
 R4(_studentId_ _courseCode_ takenGrade waitingListPosition)
-Unique:
-waitingListPosition
+
 
 R5(_studentId_ _courseCode_ _classificationName_)

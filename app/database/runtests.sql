@@ -26,8 +26,10 @@ SET client_min_messages TO NOTICE;
 
 -- Load your files (they need to be in the same folder as this script!)
 \i C:/sql_labs/portal/app/database/tables.sql
-\i C:/sql_labs/portal/app/database/inserts.sql
 \i C:/sql_labs/portal/app/database/views.sql
+\i C:/sql_labs/portal/app/database/triggers.sql
+\i C:/sql_labs/portal/app/database/inserts.sql
+
 
 ------------------
 -- Test queries --
@@ -41,3 +43,4 @@ SELECT student, course, credits FROM PassedCourses;
 SELECT student, course, status FROM Registrations;
 SELECT student, course FROM UnreadMandatory;
 SELECT student, totalCredits, mandatoryLeft, mathCredits, researchCredits, seminarCourses, qualified FROM PathToGraduation;
+SELECT* FROM CourseQueuePositions;
