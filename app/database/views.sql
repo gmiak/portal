@@ -105,10 +105,13 @@ studentRecommendedCourse AS (
   LEFT OUTER JOIN researchCredit ON BasicInformation.idnr=researchCredit.student
   LEFT OUTER JOIN seminarCours ON BasicInformation.idnr=seminarCours.student
 )
-
 SELECT* FROM totalCredit
 NATURAL LEFT JOIN mandatoryLefts
 NATURAL LEFT JOIN mathCredit
 NATURAL FULL JOIN researchCredit
 NATURAL FULL JOIN seminarCours
 NATURAL LEFT JOIN qualified;
+---CourseQueuePositions
+CREATE OR REPLACE VIEW CourseQueuePositions AS
+SELECT course, student, position AS place FROM WaitingList;
+
