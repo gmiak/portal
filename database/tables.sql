@@ -15,14 +15,16 @@ CREATE TABLE Branches (
 	program TEXT NOT NULL,
 	PRIMARY KEY(name,program),
 	FOREIGN KEY (program) REFERENCES Programs
+
 );
 CREATE TABLE Students (
 	idnr VARCHAR(10) check (idnr SIMILAR TO '[0-9]{10}'),
 	name TEXT NOT NULL,
-	login TEXT NOT NULL,
+	login TEXT NOT NULL UNIQUE,
 	program TEXT NOT NULL,
 	PRIMARY KEY (idnr),
-	FOREIGN KEY (program) REFERENCES Programs
+	FOREIGN KEY (program) REFERENCES Programs,
+	UNIQUE (idnr,program)
 );
 CREATE TABLE Courses(
 	code VARCHAR(6) check (length(code) = 6),
@@ -47,19 +49,20 @@ CREATE TABLE StudentBranches(
 	 student VARCHAR(10) ,
 	 branch TEXT NOT NULL,
 	 program TEXT NOT Null,
-	 PRIMARY KEY (student, branch),
-	 FOREIGN KEY (student) REFERENCES Students,
-	 FOREIGN KEY (branch, program) REFERENCES Branches
+	 PRIMARY KEY (student),
+	 FOREIGN KEY (student, program) REFERENCES Students(idnr,program),
+	 FOREIGN KEY (branch,program) REFERENCES Branches
 	 );
 CREATE TABLE LimitedCourses(
 	 course VARCHAR(6) PRIMARY KEY,
 	 capacity INT NOT NULL check(capacity>=0),
 	 FOREIGN KEY (course) REFERENCES Courses
 	 );
+
 CREATE TABLE PreRequisities(
 	 course VARCHAR(6),
 	 requisities VARCHAR(6),
-	 PRIMARY KEY(course),
+	 PRIMARY KEY(course,requisities),
 	 FOREIGN KEY (course) REFERENCES Courses,
 	 FOREIGN KEY (requisities) REFERENCES Courses
 	 );
