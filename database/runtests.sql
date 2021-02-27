@@ -25,10 +25,17 @@ SET client_min_messages TO NOTICE;
 \set ON_ERROR_STOP on
 
 -- Load your files (they need to be in the same folder as this script!)
+
 \i C:/sql_labs/portal/app/database/tables.sql
 \i C:/sql_labs/portal/app/database/views.sql
 \i C:/sql_labs/portal/app/database/triggers.sql
 \i C:/sql_labs/portal/app/database/inserts.sql
+/*
+\i tables.sql
+\i views.sql
+\i triggers.sql
+\i inserts.sql
+*/
 
 
 ------------------

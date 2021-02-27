@@ -49,7 +49,6 @@ INSERT INTO MandatoryBranch VALUES ('CCC555', 'B1','Prog2');
 INSERT INTO RecommendedBranch VALUES ('CCC222', 'B1','Prog1');
 INSERT INTO RecommendedBranch VALUES ('CCC333', 'B2','Prog1');
 
-
 INSERT INTO Taken VALUES('2222222222', 'CCC111', 'U');
 INSERT INTO Taken VALUES('2222222222', 'CCC222', 'U');
 INSERT INTO Taken VALUES('2222222222', 'CCC444', 'U');
@@ -66,11 +65,26 @@ INSERT INTO Registered VALUES ('1111111111', 'CCC222');
 INSERT INTO Registered VALUES ('2222222222', 'CCC222');
 INSERT INTO Registered VALUES ('5555555555', 'CCC333');
 
-
-
-
-
 INSERT INTO WaitingList VALUES ('3333333333','CCC222', nextPos ('CCC222'));
 INSERT INTO WaitingList VALUES ('3333333333', 'CCC333',nextPos ('CCC333'));
 INSERT INTO WaitingList VALUES ('2222222222', 'CCC333',nextPos ('CCC333'));
-INSERT INTO Registered VALUES ('3333333333','CCC222' );
+
+---------------- INSERT INTO VIEW Registrations  ----------------------------
+--- TEST TRIGGER 1:
+
+/** Here the student is already in the WaitingList for the same course. **/
+--INSERT INTO Registrations VALUES ('2222222222', 'CCC333');
+
+/** Here the student has already passed the course. (With grade=5). **/
+--INSERT INTO Registrations VALUES ('4444444444', 'CCC222');
+
+/** Here the student missing CCC444 to be accepted in CCC333 **/
+--INSERT INTO Registrations VALUES ('1111111111', 'CCC333');
+
+/** Here the course CCC222 already contains 2 student, which is the max capacity for the course.
+    The new student will be added into WaitingList. **/
+--INSERT INTO Registrations VALUES ('6666666666', 'CCC222');
+
+/** Here the student has all prerequisites. She/He has not been registered/passed the course before.
+    The course has no max-capacity. The student should be registered without constraints. **/
+--INSERT INTO Registrations VALUES ('4444444444', 'CCC555');

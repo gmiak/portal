@@ -121,7 +121,9 @@ CREATE TABLE WaitingList(
 	 FOREIGN KEY (student) REFERENCES Students,
 	 FOREIGN KEY (course) REFERENCES Courses
 	 );
---Functions
+
+--- Functions
+
 CREATE OR REPLACE FUNCTION nextPos (CHAR(6)) RETURNS INT AS $$ DECLARE
 	 position INT;
 	 BEGIN
