@@ -26,7 +26,7 @@ BEGIN
              WHERE student=NEW.student AND course=NEW.course)
     ) INTO courseIsAlreadyTaken;
 
-  courseCapacity := (SELECT COALESCE(SUM(capacity), -1) FROM LimitedCourses
+  courseCapacity := (SELECT COALESCE((capacity), -1) FROM LimitedCourses
             WHERE course=NEW.course);
 
   totalRegistered := (SELECT COUNT(*) FROM Registrations
@@ -47,7 +47,7 @@ BEGIN
   IF (preRequisitiesTaken < totalprerequisites) THEN
     RAISE EXCEPTION 'The student %, missing prerequisites for %!', NEW.student, NEW.course;
   END IF;
-  IF (totalRegistered=courseCapacity) THEN
+  IF (totalRegistered>=courseCapacity) THEN
     RAISE NOTICE 'The Course % is full for registration!
     The student % is now on the waitinglist.' , NEW.course, NEW.student;
     INSERT INTO WaitingList VALUES (NEW.student, NEW.course, nextPos(NEW.course));
@@ -65,9 +65,41 @@ CREATE TRIGGER checkRegistered
   FOR EACH ROW
   EXECUTE FUNCTION checkRegistrations();
 
-
+-- if total registered is less than coursecapacity then,
+--take a first from waitinlist and insert it to registration
 ---- Second Trigger
+CREATE OR REPLACE FUNCTION checkUnRegistrations() RETURNS TRIGGER AS $$
+DECLARE
+    studentPos INT;
+    newStudent VARCHAR;
+BEGIN
+  studentPos:= (SELECT position FROM WaitingList
+            WHERE course =OLD.course AND student= OLD.student);
+  newStudent := (SELECT student FROM WaitingList
+            WHERE course= OLD.course AND position=1);
 
-/**
-Code here ...
-**/
+   IF (OLD.status='waiting') THEN
+        DELETE FROM WaitingList WHERE (student=OLD.student AND course=OLD.course);
+        UPDATE WaitingList
+        SET position = position-1
+        WHERE (course = OLD.course) AND WaitingList.position>studentPos;
+   ELSE
+        DELETE FROM Registered WHERE (student= OLD.student AND course= OLD.course);
+        IF(newStudent IS NOT NULL) THEN
+            DELETE FROM WaitingList WHERE(newStudent= student AND course=OLD.course);
+            INSERT INTO Registrations VALUES(newStudent,OLD.course);
+            UPDATE WaitingList
+            SET position = position-1
+            WHERE (course = OLD.course) ;
+        END IF;
+
+   END IF;
+   RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER checkUnregistered
+    INSTEAD OF DELETE OR UPDATE ON Registrations
+    FOR EACH ROW
+    EXECUTE FUNCTION checkUnRegistrations();

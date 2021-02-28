@@ -34,7 +34,7 @@ INSERT INTO StudentBranches VALUES ('4444444444', 'B1','Prog1');
 
 INSERT INTO LimitedCourses VALUES ('CCC222', 2);
 INSERT INTO LimitedCourses VALUES ('CCC333', 2);
-
+INSERT INTO LimitedCourses VALUES ('CCC444', 2);
 INSERT INTO PreRequisities VALUES ('CCC333','CCC444');
 
 INSERT INTO Classified VALUES ('CCC333', 'math');
@@ -61,6 +61,7 @@ INSERT INTO Taken VALUES('5555555555', 'CCC333', '5');
 INSERT INTO Taken VALUES('5555555555', 'CCC444', '5');
 
 INSERT INTO Registered VALUES ('1111111111', 'CCC111');
+INSERT INTO Registered VALUES ('1111111111', 'CCC444');
 INSERT INTO Registered VALUES ('1111111111', 'CCC222');
 INSERT INTO Registered VALUES ('2222222222', 'CCC222');
 INSERT INTO Registered VALUES ('5555555555', 'CCC333');
@@ -68,6 +69,7 @@ INSERT INTO Registered VALUES ('5555555555', 'CCC333');
 INSERT INTO WaitingList VALUES ('3333333333','CCC222', nextPos ('CCC222'));
 INSERT INTO WaitingList VALUES ('3333333333', 'CCC333',nextPos ('CCC333'));
 INSERT INTO WaitingList VALUES ('2222222222', 'CCC333',nextPos ('CCC333'));
+INSERT INTO WaitingList VALUES ('6666666666','CCC333',nextPos ('CCC333'));
 
 ---------------- INSERT INTO VIEW Registrations  ----------------------------
 --- TEST TRIGGER 1:
@@ -76,7 +78,7 @@ INSERT INTO WaitingList VALUES ('2222222222', 'CCC333',nextPos ('CCC333'));
 --INSERT INTO Registrations VALUES ('2222222222', 'CCC333');
 
 /** Here the student has already passed the course. (With grade=5). **/
---INSERT INTO Registrations VALUES ('4444444444', 'CCC222');
+---INSERT INTO Registrations VALUES ('4444444444', 'CCC222');
 
 /** Here the student missing CCC444 to be accepted in CCC333 **/
 --INSERT INTO Registrations VALUES ('1111111111', 'CCC333');
@@ -88,3 +90,5 @@ INSERT INTO WaitingList VALUES ('2222222222', 'CCC333',nextPos ('CCC333'));
 /** Here the student has all prerequisites. She/He has not been registered/passed the course before.
     The course has no max-capacity. The student should be registered without constraints. **/
 --INSERT INTO Registrations VALUES ('4444444444', 'CCC555');
+
+--DELETE FROM Registrations WHERE (student='1111111111' AND course= 'CCC222');
