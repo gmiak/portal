@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3d7fe32-5729-4ba6-b80a-110d473ec068" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/portal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/portal.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/app.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/inserts.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/inserts.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/triggers.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/triggers.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
