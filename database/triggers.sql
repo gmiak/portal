@@ -65,8 +65,6 @@ CREATE TRIGGER checkRegistered
   FOR EACH ROW
   EXECUTE FUNCTION checkRegistrations();
 
--- if total registered is less than coursecapacity then,
---take a first from waitinlist and insert it to registration
 ---- Second Trigger
 CREATE OR REPLACE FUNCTION checkUnRegistrations() RETURNS TRIGGER AS $$
 DECLARE
