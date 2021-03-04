@@ -12,21 +12,59 @@ public class TestPortal {
          // Write your tests here. Add/remove calls to pause() as desired. 
          // Use println instead of prettyPrint to get more compact output (if your raw JSON is already readable)
 
-          //Tests on Registered
+          //1. list info for a student
+          prettyPrint(c.getInfo("4444444444"));
+          //pause();
 
-          System.out.println(c.register("2222222222", "CCC333"));
-          pause();
-   
-          System.out.println(c.unregister("2222222222", "CCC333"));
+          //2. Register a student for an unrestricted course, and check that he/she ends up registered (print info again).
+          System.out.println(c.register("4444444444", "CCC555"));
+          //pause();
+          prettyPrint(c.getInfo("4444444444"));
+          //pause();
+
+          //3. Register the same student for the same course again, and check that you get an error response.
+          System.out.println(c.register("4444444444", "CCC555"));
+          //pause();
+
+          //4. Unregister the student from the course, and then unregister him/her again from the same course. Check that the student is no longer registered and that the second unregistration gives an error response.
+          System.out.println(c.unregister("4444444444", "CCC555"));
+          //pause();
+          prettyPrint(c.getInfo("4444444444"));
+          //pause();
+          System.out.println(c.unregister("4444444444", "CCC555"));
+          //pause();
+
+          //5. Register the student for a course that he/she doesn't have the prerequisites for, and check that an error is generated.
+          System.out.println(c.register("1111111111", "CCC333"));
+          //pause();
+
+          //6. Unregister a student from a restricted course that he/she is registered to, and which has at least two students in the queue. Register again to the same course and check that the student gets the correct (last) position in the waiting list.
+          System.out.println(c.unregister("5555555555", "CCC222"));
+          prettyPrint(c.getInfo("5555555555"));
+          //pause();
+          System.out.println(c.register("5555555555", "CCC222"));
+          prettyPrint(c.getInfo("5555555555"));
+          // 5555555555 would get position 2 for CCC222
           pause();
 
-          prettyPrint(c.getInfo("2222222222"));
+          //7. Unregister and re-register the same student for the same restricted course, and check that the student is first removed and then ends up in the same position as before (last).
+          System.out.println(c.unregister("5555555555", "CCC222"));
+          prettyPrint(c.getInfo("5555555555"));
+          pause();
+          System.out.println(c.register("5555555555", "CCC222"));
+          prettyPrint(c.getInfo("5555555555")); //check position (should be 2) for CCC222
           pause();
 
-          System.out.println(c.register("2222222222", "CCC333"));
+          //8. Unregister a student from an overfull course, i.e. one with more students registered than there are places on the course (you need to set this situation up in the database directly). Check that no student was moved from the queue to being registered as a result.
+          //step1: print Registrations(1111111111, 2222222222, 5555555555 registered for CCC444
+          // and WaitingList (6666666666 waiting at pos 1 for CCC444)
+          // SELECT* FROM WaitingList; SELECT* FROM Registrations;
+          System.out.println(c.unregister("5555555555", "CCC222"));
+          //step2: prints and checks Registrations and WaitingList
           pause();
 
-          prettyPrint(c.getInfo("2222222222"));
+          //9. Unregister with the SQL injection you introduced, causing all (or almost all?) registrations to disappear.
+          System.out.println(c.sqlInjection("2222222222", "CCC555"));
 
 
 

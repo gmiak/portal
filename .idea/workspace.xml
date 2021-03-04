@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3d7fe32-5729-4ba6-b80a-110d473ec068" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/production/app/PortalConnection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/app/PortalServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/app/TestPortal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/PortalConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/PortalConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/TestPortal.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/TestPortal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/inserts.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/inserts.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/triggers.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/triggers.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +51,13 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.TestPortal">
+    <configuration name="PortalServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="PortalServer" />
+      <module name="app" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TestPortal" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="TestPortal" />
       <module name="app" />
@@ -65,8 +74,14 @@
     </configuration>
     <list>
       <item itemvalue="Application.TestPortal" />
+      <item itemvalue="Application.PortalServer" />
       <item itemvalue="JAR Application.jdbc" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PortalServer" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">

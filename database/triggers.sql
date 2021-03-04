@@ -10,6 +10,7 @@ CREATE OR REPLACE FUNCTION checkRegistrations() RETURNS TRIGGER AS $$
 DECLARE
   studentIsRegistered BOOLEAN;
   courseIsAlreadyTaken BOOLEAN;
+  studentIsInWaitingList BOOLEAN;
   courseCapacity INT;
   totalRegistered INT;
   totalprerequisites INT;
@@ -25,6 +26,11 @@ BEGIN
     (EXISTS (SELECT* FROM PassedCourses
              WHERE student=NEW.student AND course=NEW.course)
     ) INTO courseIsAlreadyTaken;
+
+  SELECT
+      (EXISTS (SELECT* FROM WaitingList
+               WHERE student=NEW.student AND course=NEW.course)
+      ) INTO studentIsInWaitingList;
 
   courseCapacity := (SELECT COALESCE((capacity), -1) FROM LimitedCourses
             WHERE course=NEW.course);

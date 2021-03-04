@@ -70,16 +70,39 @@ public class PortalConnection {
         }
     }
 
+    // Unregister a student from a course, and introduce an SQL injection vulnerability (as a String)
+    public String sqlInjection(String student, String courseCode){
+        String query = "DELETE FROM Registrations WHERE student="+student+" AND course="+courseCode+";";
+        try(Statement ps = conn.createStatement();) {
+            int res = ps.executeUpdate(query);
+            if (res!=0) {
+                ps.executeUpdate(query);
+                return "{\"sucess\":true}";
+            }
+            else
+                return "{\"sucess\":false, \"error\":\"student "+student+" is missing!}";
+
+        } catch (SQLException e) {
+            return "{\"success\":false, \"error\":\""+getError(e)+"\"}";
+        }
+    }
+
     // Return a JSON document containing lots of information about a student, it should validate against the schema found in information_schema.json
     public String getInfo(String student) throws SQLException{
         
         try(PreparedStatement st = conn.prepareStatement(
             // replace this with something more useful
-            "SELECT jsonb_build_object('student',idnr,'name',name) AS jsondata FROM BasicInformation WHERE idnr=?"
+            //"SELECT jsonb_build_object('student',idnr,'name',name) AS jsondata FROM BasicInformation WHERE idnr=?"
+
+                "SELECT jsonb_build_object('student',idnr, 'name',name, 'login',login, 'program',program, 'branch',branch," +
+                        "'seminarCourses',seminarCourses, 'mathCredits',mathCredits, 'researchCredits',researchCredits, 'totalCredits',totalCredits, 'canGraduate',qualified, 'finished'," +
+                        "(SELECT COALESCE(jsonb_agg(jsonb_build_object('course',course, 'code',course, 'credits',credits, 'grade',grade)), '[]') FROM FinishedCourses WHERE idnr=student), 'registered'," +
+                        "(SELECT COALESCE(jsonb_agg(jsonb_build_object('course',course, 'code',course, 'status',status, 'position',place)), '[]') FROM Registrations NATURAL LEFT JOIN CourseQueuePositions WHERE idnr=student) )" +
+                        "AS jsondata FROM BasicInformation, PathToGraduation WHERE idnr=? AND idnr=student"
             );){
             
             st.setString(1, student);
-            
+
             ResultSet rs = st.executeQuery();
             
             if(rs.next())
