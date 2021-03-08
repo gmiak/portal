@@ -59,12 +59,14 @@ public class PortalConnection {
             ps.setString(1, idnr);
             ps.setString(2, code);
             int res = ps.executeUpdate();
-            if (res!=0) {
-                ps.executeUpdate();
+            System.out.println(ps);
+            System.out.println(res);
+            if (res>0) {
+                //ps.executeUpdate();
                 return "{\"success\":true}"; //Felet var felstavning på success. Vi skrev sucess.
             }
             else
-                return "{\"sucess\":false, \"error\":\"student "+idnr+" is missing!}";
+                return "{\"success\":false, \"error\":\"'course or student doesnt exist'\"}";
 
         } catch (SQLException e) {
             return "{\"success\":false, \"error\":\""+getError(e)+"\"}";
@@ -78,10 +80,10 @@ public class PortalConnection {
             int res = ps.executeUpdate(query);
             if (res!=0) {
                 ps.executeUpdate(query);
-                return "{\"sucess\":true}";
+                return "{\"success\":true}";
             }
             else
-                return "{\"sucess\":false, \"error\":\"student "+student+" is missing!}";
+                return "{\"success\":false, \"error\":\"student "+student+" is missing!}";
 
         } catch (SQLException e) {
             return "{\"success\":false, \"error\":\""+getError(e)+"\"}";

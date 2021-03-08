@@ -119,7 +119,8 @@ CREATE TABLE WaitingList(
 	 position INT CHECK (position>0),
 	 PRIMARY KEY (student,course),
 	 FOREIGN KEY (student) REFERENCES Students,
-	 FOREIGN KEY (course) REFERENCES Courses
+	 FOREIGN KEY (course) REFERENCES Courses,
+    UNIQUE (course,position)
 	 );
 
 --- Functions
@@ -130,78 +131,9 @@ CREATE OR REPLACE FUNCTION nextPos (CHAR(6)) RETURNS INT AS $$ DECLARE
 	 position := (SELECT COUNT(*) FROM WaitingList WHERE course = $1);
 	 RETURN (position+1);
 	 END $$ LANGUAGE plpgsql;
-INSERT INTO Departments VALUES ('Computing Science','CS');
-INSERT INTO Departments VALUES ('Computer Engineering','CE');
-INSERT INTO Programs VALUES ('Prog1','p1');
-INSERT INTO Programs VALUES ('Prog2','p1');
-
-INSERT INTO Branches VALUES ('B1','Prog1');
-INSERT INTO Branches VALUES ('B2','Prog1');
-INSERT INTO Branches VALUES ('B1','Prog2');
-
-INSERT INTO Students VALUES ('1111111111', 'N1', 'ls1', 'Prog1');
-INSERT INTO Students VALUES ('2222222222', 'N2', 'ls2', 'Prog1');
-INSERT INTO Students VALUES ('3333333333', 'N3', 'ls3', 'Prog2');
-INSERT INTO Students VALUES ('4444444444', 'N4', 'ls4', 'Prog1');
-INSERT INTO Students VALUES ('5555555555', 'Nx', 'ls5', 'Prog2');
-INSERT INTO Students VALUES ('6666666666', 'Nx', 'ls6', 'Prog2');
-
-INSERT INTO Courses VALUES ('CCC111', 'C1', 22.5, 'Computing Science');
-INSERT INTO Courses VALUES ('CCC222', 'C2', 20,   'Computing Science');
-INSERT INTO Courses VALUES ('CCC333', 'C3', 30,   'Computer Engineering');
-INSERT INTO Courses VALUES ('CCC444', 'C4', 40,   'Computer Engineering');
-INSERT INTO Courses VALUES ('CCC555', 'C5', 50,   'Computing Science');
-
-INSERT INTO Classifications VALUES ('math');
-INSERT INTO Classifications VALUES ('research');
-INSERT INTO Classifications VALUES ('seminar');
-
-INSERT INTO ProgramDepartment VALUES('Computing Science','Prog1');
-INSERT INTO ProgramDepartment VALUES('Computer Engineering','Prog2');
-
-INSERT INTO StudentBranches VALUES ('2222222222', 'B1','Prog1');
-INSERT INTO StudentBranches VALUES ('3333333333', 'B1','Prog2');
-INSERT INTO StudentBranches VALUES ('4444444444', 'B1','Prog1');
 
 
-INSERT INTO LimitedCourses VALUES ('CCC222', 2);
-INSERT INTO LimitedCourses VALUES ('CCC333', 2);
-INSERT INTO LimitedCourses VALUES ('CCC444', 2);
-INSERT INTO PreRequisities VALUES ('CCC333','CCC444');
-
-INSERT INTO Classified VALUES ('CCC333', 'math');
-INSERT INTO Classified VALUES ('CCC444', 'research');
-INSERT INTO Classified VALUES ('CCC444','seminar');
-
-INSERT INTO MandatoryProgram VALUES ('CCC111', 'Prog1');
-
-INSERT INTO MandatoryBranch VALUES ('CCC333', 'B1','Prog1');
-INSERT INTO MandatoryBranch VALUES ('CCC555', 'B1','Prog2');
-
-INSERT INTO RecommendedBranch VALUES ('CCC222', 'B1','Prog1');
-INSERT INTO RecommendedBranch VALUES ('CCC333', 'B2','Prog1');
-
-INSERT INTO Taken VALUES('2222222222', 'CCC111', 'U');
-INSERT INTO Taken VALUES('2222222222', 'CCC222', 'U');
-INSERT INTO Taken VALUES('2222222222', 'CCC444', 'U');
-INSERT INTO Taken VALUES('4444444444', 'CCC111', '5');
-INSERT INTO Taken VALUES('4444444444', 'CCC222', '5');
-INSERT INTO Taken VALUES('4444444444', 'CCC333', '5');
-INSERT INTO Taken VALUES('4444444444', 'CCC444', '5');
-INSERT INTO Taken VALUES('5555555555', 'CCC111', '5');
-INSERT INTO Taken VALUES('5555555555', 'CCC333', '5');
-INSERT INTO Taken VALUES('5555555555', 'CCC444', '5');
-
-INSERT INTO Registered VALUES ('1111111111', 'CCC111');
-INSERT INTO Registered VALUES ('1111111111', 'CCC444');
-INSERT INTO Registered VALUES ('1111111111', 'CCC222');
-INSERT INTO Registered VALUES ('2222222222', 'CCC222');
-INSERT INTO Registered VALUES ('5555555555', 'CCC333');
-
-INSERT INTO WaitingList VALUES ('3333333333','CCC222', nextPos ('CCC222'));
-INSERT INTO WaitingList VALUES ('3333333333', 'CCC333',nextPos ('CCC333'));
-INSERT INTO WaitingList VALUES ('2222222222', 'CCC333',nextPos ('CCC333'));
-INSERT INTO WaitingList VALUES ('6666666666','CCC333',nextPos ('CCC333'));
+---- Views
 
 ------------------- view BasicInformation ----------------------------------
 CREATE OR REPLACE VIEW BasicInformation AS
@@ -320,3 +252,114 @@ NATURAL LEFT JOIN qualified;
 CREATE OR REPLACE VIEW CourseQueuePositions AS
 SELECT course, student, position AS place FROM WaitingList;
 
+---- TRIGGERS
+
+-------------------- VIEW : CourseQueuePositions --------------------------
+CREATE OR REPLACE VIEW CourseQueuePositions AS
+SELECT course, student, position AS place FROM WaitingList;
+
+
+------------------- Functions and Triggers for Registrations --------------
+
+---- First Trigger
+CREATE OR REPLACE FUNCTION checkRegistrations() RETURNS TRIGGER AS $$
+DECLARE
+  studentIsRegistered BOOLEAN;
+  courseIsAlreadyTaken BOOLEAN;
+  studentIsInWaitingList BOOLEAN;
+  courseCapacity INT;
+  totalRegistered INT;
+  totalprerequisites INT;
+  preRequisitiesTaken INT;
+
+BEGIN
+  SELECT
+    (EXISTS (SELECT* FROM Registrations
+             WHERE student=NEW.student AND course=NEW.course)
+    ) INTO studentIsRegistered;
+
+  SELECT
+    (EXISTS (SELECT* FROM PassedCourses
+             WHERE student=NEW.student AND course=NEW.course)
+    ) INTO courseIsAlreadyTaken;
+
+  SELECT
+      (EXISTS (SELECT* FROM WaitingList
+               WHERE student=NEW.student AND course=NEW.course)
+      ) INTO studentIsInWaitingList;
+
+  courseCapacity := (SELECT COALESCE((capacity), -1) FROM LimitedCourses
+            WHERE course=NEW.course);
+
+  totalRegistered := (SELECT COUNT(*) FROM Registrations
+            WHERE course=NEW.course AND status='registered');
+
+  totalprerequisites := (SELECT COUNT(requisities) FROM PreRequisities
+            WHERE course=NEW.course);
+
+  preRequisitiesTaken := (SELECT COUNT(course) FROM (SELECT requisities AS course FROM PreRequisities
+            WHERE course=NEW.course INTERSECT SELECT course FROM PassedCourses WHERE student=NEW.student) AS Taken);
+
+
+  IF (studentIsRegistered OR courseIsAlreadyTaken) THEN
+    RAISE EXCEPTION 'Registration failed!
+    Alt1: The Student % may already be registered or passed the course.
+    Alt2: She/He is may be on the waiting list for the course %.', NEW.student, NEW.course;
+  END IF;
+  IF (preRequisitiesTaken < totalprerequisites) THEN
+    RAISE EXCEPTION 'The student %, missing prerequisites for %!', NEW.student, NEW.course;
+  END IF;
+  IF (totalRegistered>=courseCapacity) THEN
+    --RAISE NOTICE 'The Course % is full for registration!
+    --The student % is now on the waitinglist.' , NEW.course, NEW.student;
+    INSERT INTO WaitingList VALUES (NEW.student, NEW.course, nextPos(NEW.course));
+  ELSE
+    INSERT INTO Registered VALUES (NEW.student, NEW.course);
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--DROP TRIGGER IF EXISTS checkRegistered ON Registrations;
+
+CREATE TRIGGER checkRegistered
+  INSTEAD OF INSERT ON Registrations
+  FOR EACH ROW
+  EXECUTE FUNCTION checkRegistrations();
+
+---- Second Trigger
+CREATE OR REPLACE FUNCTION checkUnRegistrations() RETURNS TRIGGER AS $$
+DECLARE
+    studentPos INT;
+    newStudent VARCHAR;
+BEGIN
+  studentPos:= (SELECT position FROM WaitingList
+            WHERE course =OLD.course AND student= OLD.student);
+  newStudent := (SELECT student FROM WaitingList
+            WHERE course= OLD.course AND position=1);
+
+   IF (OLD.status='waiting') THEN
+        DELETE FROM WaitingList WHERE (student=OLD.student AND course=OLD.course);
+        UPDATE WaitingList
+        SET position = position-1
+        WHERE (course = OLD.course) AND WaitingList.position>studentPos;
+   ELSE
+        DELETE FROM Registered WHERE (student= OLD.student AND course= OLD.course);
+        IF(newStudent IS NOT NULL) THEN
+            DELETE FROM WaitingList WHERE(newStudent= student AND course=OLD.course);
+            INSERT INTO Registrations VALUES(newStudent,OLD.course);
+            UPDATE WaitingList
+            SET position = position-1
+            WHERE (course = OLD.course AND studentPos>1) ;
+        END IF;
+
+   END IF;
+   RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER checkUnregistered
+    INSTEAD OF DELETE OR UPDATE ON Registrations
+    FOR EACH ROW
+    EXECUTE FUNCTION checkUnRegistrations();

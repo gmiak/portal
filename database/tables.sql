@@ -119,7 +119,8 @@ CREATE TABLE WaitingList(
 	 position INT CHECK (position>0),
 	 PRIMARY KEY (student,course),
 	 FOREIGN KEY (student) REFERENCES Students,
-	 FOREIGN KEY (course) REFERENCES Courses
+	 FOREIGN KEY (course) REFERENCES Courses,
+    UNIQUE (course,position)
 	 );
 
 --- Functions
