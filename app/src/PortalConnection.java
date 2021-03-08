@@ -7,7 +7,7 @@ public class PortalConnection {
     // For connecting to the portal database on your local machine
     static final String DATABASE = "jdbc:postgresql://localhost/portal";
     static final String USERNAME = "postgres";
-    static final String PASSWORD = "suede2011";
+    static final String PASSWORD = "XXXXXX";
 
     // For connecting to the chalmers database server (from inside chalmers)
     // static final String DATABASE = "jdbc:postgresql://brage.ita.chalmers.se/";
@@ -33,7 +33,7 @@ public class PortalConnection {
 
 
     // Register a student on a course, returns a tiny JSON document (as a String)
-    public String register(String student, String courseCode){
+    public String register(String student, String courseCode)  {
         try(PreparedStatement ps = conn.prepareStatement(
                 "INSERT INTO Registrations VALUES (?,?);");) {
             String idnr = student;
@@ -41,7 +41,8 @@ public class PortalConnection {
             ps.setString(1, idnr);
             ps.setString(2, code);
             ps.executeUpdate();
-            return "{\"sucess\":true}";
+            System.out.println(ps);
+            return "{\"success\":true}";
 
         } catch (SQLException e) {
             return "{\"success\":false, \"error\":\""+getError(e)+"\"}";
@@ -60,7 +61,7 @@ public class PortalConnection {
             int res = ps.executeUpdate();
             if (res!=0) {
                 ps.executeUpdate();
-                return "{\"sucess\":true}";
+                return "{\"success\":true}"; //Felet var felstavning på success. Vi skrev sucess.
             }
             else
                 return "{\"sucess\":false, \"error\":\"student "+idnr+" is missing!}";
@@ -72,7 +73,7 @@ public class PortalConnection {
 
     // Unregister a student from a course, and introduce an SQL injection vulnerability (as a String)
     public String sqlInjection(String student, String courseCode){
-        String query = "DELETE FROM Registrations WHERE student="+student+" AND course="+courseCode+";";
+        String query = "DELETE FROM Registrations WHERE student='"+student+"' AND course='"+courseCode+"'";
         try(Statement ps = conn.createStatement();) {
             int res = ps.executeUpdate(query);
             if (res!=0) {

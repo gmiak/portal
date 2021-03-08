@@ -54,8 +54,8 @@ BEGIN
     RAISE EXCEPTION 'The student %, missing prerequisites for %!', NEW.student, NEW.course;
   END IF;
   IF (totalRegistered>=courseCapacity) THEN
-    RAISE NOTICE 'The Course % is full for registration!
-    The student % is now on the waitinglist.' , NEW.course, NEW.student;
+    --RAISE NOTICE 'The Course % is full for registration!
+    --The student % is now on the waitinglist.' , NEW.course, NEW.student;
     INSERT INTO WaitingList VALUES (NEW.student, NEW.course, nextPos(NEW.course));
   ELSE
     INSERT INTO Registered VALUES (NEW.student, NEW.course);
@@ -94,7 +94,7 @@ BEGIN
             INSERT INTO Registrations VALUES(newStudent,OLD.course);
             UPDATE WaitingList
             SET position = position-1
-            WHERE (course = OLD.course) ;
+            WHERE (course = OLD.course AND studentPos>1) ;
         END IF;
 
    END IF;

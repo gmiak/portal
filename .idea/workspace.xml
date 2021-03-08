@@ -4,9 +4,12 @@
     <list default="true" id="f3d7fe32-5729-4ba6-b80a-110d473ec068" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/PortalConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/PortalConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/PortalServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/PortalServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/TestPortal.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/TestPortal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/inserts.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/inserts.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/triggers.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/triggers.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/app/PortalConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/production/app/PortalConnection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/app/PortalServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/production/app/PortalServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/app/TestPortal.class" beforeDir="false" afterPath="$PROJECT_DIR$/production/app/TestPortal.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +53,7 @@
       <recent name="C:\sql_labs\portal\app\database" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TestPortal">
+  <component name="RunManager" selected="Application.PortalServer">
     <configuration name="PortalServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="PortalServer" />
       <module name="app" />

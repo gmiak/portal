@@ -28,6 +28,7 @@ public class PortalServer {
         this.conn = new PortalConnection();
  
         server.createContext("/", (HttpExchange t) -> {
+
             String response = 
                "<!doctype html>"+
                "<html lang=\"en\">"+
@@ -93,6 +94,7 @@ public class PortalServer {
                "                       <p>Login: ${data.login}</p>\n" +
                "                       <p>Program: ${data.program}</p>\n" +
                "                       <p>Branch: ${data.branch || \"not selected\"}</p>\n" +
+
                "                       \n" +
                "                       <p>Read courses:<ul>\n" +
                "                       `;\n" +
